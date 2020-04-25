@@ -3,7 +3,8 @@
 import os
 import sys
 
-
+#Aplicacion DJANGO
+#Leer readme.txt para conocer como funciona.
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'apilab.settings')
     try:

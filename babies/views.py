@@ -14,7 +14,7 @@ from parents.models  import Parent
 
 
 
-
+#Ver si el usuario tiene el permiso para ver sus eventos del bebe.
 def get_events_permission(user, obj, request):
     return user.id == obj.parent.user.pk
 
@@ -42,6 +42,7 @@ class BabyViewSet(viewsets.ModelViewSet):
         ),
     )
 
+    #Cunando se crea el bebe asignar permisos
     def perform_create(self, serializer):
         baby = serializer.save()
         user = self.request.user
@@ -51,6 +52,7 @@ class BabyViewSet(viewsets.ModelViewSet):
         
         return Response(serializer.data)
 
+    #Obtener eventos de un permiso
     @action(detail=True, url_path='events', methods=['get'])
     def get_events(self, request, pk=None):
         

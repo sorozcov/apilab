@@ -41,6 +41,7 @@ class EventViewSet(viewsets.ModelViewSet):
         ),
     )
 
+    #Dar permisos al usuario al crear sobre sus eventos
     def perform_create(self, serializer):
         event = serializer.save()
         user = self.request.user
