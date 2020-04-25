@@ -12,8 +12,10 @@ from events.serializers import EventsSerializer
 from events.models import Event
 from parents.models  import Parent
 
+
+
+
 def get_events_permission(user, obj, request):
-    
     return user.id == obj.parent.user.pk
 
 #Clase BabyViewSet para consumir api/babies

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+import json
 # Create your views here.
 import math
 
@@ -10,8 +10,14 @@ from rest_framework.response import Response
 
 from permissions.services import APIPermissionClassFactory
 from events.models import Event
+from babies.models import Baby
 from events.serializers import EventsSerializer
 
+#Check que el parent y el user del bebe sea en el mismo para dar permiso de crear el evento
+def check_parent_baby(user,request):
+    babyId = (request.POST).get('baby', 0)
+    baby=Baby.objects.filter(pk=babyId)[0]
+    return user.is_authenticated and baby.parent.user==user
 
 #Clase EventViewSet para manejar api/events
 class EventViewSet(viewsets.ModelViewSet):
@@ -22,7 +28,7 @@ class EventViewSet(viewsets.ModelViewSet):
             name='EventPermission',
             permission_configuration={
                 'base': {
-                    'create': lambda user, req: user.is_authenticated,
+                    'create':  check_parent_baby,
                     'list': False,
                 },
                 'instance': {
